@@ -1111,6 +1111,13 @@ static const NSUInteger AFMultipartBodyStreamProviderDefaultBufferLength = 4096;
     [_outputStream close];
     _outputStream.delegate = nil;
     
+    // Workaround for a race condition in CFStream _CFStreamCopyRunLoopsAndModes. This outputstream needs to be
+    // retained just a little longer, so the block will do that for us. The setDelegate is effectively a no-op.
+    // https://github.com/AFNetworking/AFNetworking/issues/907
+    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.5 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+        _outputStream.delegate = nil;
+    });
+
     _self = nil;
 }
 
