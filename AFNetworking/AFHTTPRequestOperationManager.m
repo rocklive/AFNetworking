@@ -67,6 +67,7 @@
     self.reachabilityManager = [AFNetworkReachabilityManager sharedManager];
 
     self.operationQueue = [[NSOperationQueue alloc] init];
+    self.requestOperationClass = [AFHTTPRequestOperation class];
 
     self.shouldUseCredentialStorage = YES;
 
@@ -74,6 +75,13 @@
 }
 
 #pragma mark -
+
+- (void)setRequestOperationClass:(Class)requestOperationClass {
+    NSParameterAssert(requestOperationClass);
+    NSParameterAssert([requestOperationClass isSubclassOfClass:[AFHTTPRequestOperation class]]);
+
+    _requestOperationClass = requestOperationClass;
+}
 
 #ifdef _SYSTEMCONFIGURATION_H
 #endif
@@ -96,7 +104,7 @@
                                                     success:(void (^)(AFHTTPRequestOperation *operation, id responseObject))success
                                                     failure:(void (^)(AFHTTPRequestOperation *operation, NSError *error))failure
 {
-    AFHTTPRequestOperation *operation = [[AFHTTPRequestOperation alloc] initWithRequest:request];
+    AFHTTPRequestOperation *operation = [[[self requestOperationClass] alloc] initWithRequest:request];
     operation.responseSerializer = self.responseSerializer;
     operation.shouldUseCredentialStorage = self.shouldUseCredentialStorage;
     operation.credential = self.credential;

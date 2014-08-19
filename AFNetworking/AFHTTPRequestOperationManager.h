@@ -158,6 +158,11 @@
  */
 @property (nonatomic, strong) dispatch_group_t completionGroup;
 
+/**
+ The class to use for request operations (defaults to `AFHTTPRequestOperation`).
+ */
+@property (nonatomic, strong) Class requestOperationClass;
+
 ///---------------------------------------------
 /// @name Creating and Initializing HTTP Clients
 ///---------------------------------------------
