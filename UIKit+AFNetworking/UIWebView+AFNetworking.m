@@ -87,12 +87,12 @@
 
 #pragma mark -
 
-- (void)loadRequest:(NSURLRequest *)request
-           progress:(NSProgress * _Nullable __autoreleasing * _Nullable)progress
-            success:(NSString * (^)(NSHTTPURLResponse *response, NSString *HTML))success
-            failure:(void (^)(NSError *error))failure
+- (void)af_loadRequest:(NSURLRequest *)request
+              progress:(NSProgress * _Nullable __autoreleasing * _Nullable)progress
+               success:(NSString * (^)(NSHTTPURLResponse *response, NSString *HTML))success
+               failure:(void (^)(NSError *error))failure
 {
-    [self loadRequest:request MIMEType:nil textEncodingName:nil progress:progress success:^NSData *(NSHTTPURLResponse *response, NSData *data) {
+    [self af_loadRequest:request MIMEType:nil textEncodingName:nil progress:progress success:^NSData *(NSHTTPURLResponse *response, NSData *data) {
         NSStringEncoding stringEncoding = NSUTF8StringEncoding;
         if (response.textEncodingName) {
             CFStringEncoding encoding = CFStringConvertIANACharSetNameToEncoding((CFStringRef)response.textEncodingName);
@@ -110,12 +110,12 @@
     } failure:failure];
 }
 
-- (void)loadRequest:(NSURLRequest *)request
-           MIMEType:(NSString *)MIMEType
-   textEncodingName:(NSString *)textEncodingName
-           progress:(NSProgress * _Nullable __autoreleasing * _Nullable)progress
-            success:(NSData * (^)(NSHTTPURLResponse *response, NSData *data))success
-            failure:(void (^)(NSError *error))failure
+- (void)af_loadRequest:(NSURLRequest *)request
+              MIMEType:(NSString *)MIMEType
+      textEncodingName:(NSString *)textEncodingName
+              progress:(NSProgress * _Nullable __autoreleasing * _Nullable)progress
+               success:(NSData * (^)(NSHTTPURLResponse *response, NSData *data))success
+               failure:(void (^)(NSError *error))failure
 {
     NSParameterAssert(request);
 

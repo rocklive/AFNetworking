@@ -44,7 +44,7 @@
         }
     }];
 
-    [self.refreshControl setRefreshingWithStateOfTask:task];
+    [self.refreshControl af_setRefreshingWithStateOfTask:task];
 }
 
 #pragma mark - UIViewController

@@ -40,9 +40,9 @@
 
 - (void)setUp {
     [super setUp];
-    [[UIImageView sharedImageDownloader].imageCache removeAllImages];
-    [[[[[[UIImageView sharedImageDownloader] sessionManager] session] configuration] URLCache] removeAllCachedResponses];
-    [UIImageView setSharedImageDownloader:[[AFImageDownloader alloc] init]];
+    [[UIImageView af_sharedImageDownloader].imageCache removeAllImages];
+    [[[[[[UIImageView af_sharedImageDownloader] sessionManager] session] configuration] URLCache] removeAllCachedResponses];
+    [UIImageView af_setSharedImageDownloader:[[AFImageDownloader alloc] init]];
 
     self.imageView = [UIImageView new];
 
@@ -62,7 +62,7 @@
 
 - (void)testThatImageCanBeDownloadedFromURL {
     XCTAssertNil(self.imageView.image);
-    [self.imageView setImageWithURL:self.jpegURL];
+    [self.imageView af_setImageWithURL:self.jpegURL];
     [self expectationForPredicate:[NSPredicate predicateWithFormat:@"image != nil"]
               evaluatedWithObject:self.imageView
                           handler:nil];
@@ -71,8 +71,8 @@
 
 - (void)testThatImageDownloadSucceedsWhenDuplicateRequestIsSentToImageView {
     XCTAssertNil(self.imageView.image);
-    [self.imageView setImageWithURL:self.jpegURL];
-    [self.imageView setImageWithURL:self.jpegURL];
+    [self.imageView af_setImageWithURL:self.jpegURL];
+    [self.imageView af_setImageWithURL:self.jpegURL];
     [self expectationForPredicate:[NSPredicate predicateWithFormat:@"image != nil"]
               evaluatedWithObject:self.imageView
                           handler:nil];
@@ -83,7 +83,7 @@
     UIImage *placeholder = [UIImage imageNamed:@"logo"];
     XCTestExpectation *expectation = [self expectationWithDescription:@"Request should fail"];
 
-    [self.imageView setImageWithURLRequest:self.error404URLRequest
+    [self.imageView af_setImageWithURLRequest:self.error404URLRequest
                           placeholderImage:placeholder
                                    success:nil
                                    failure:^(NSURLRequest * _Nonnull request, NSHTTPURLResponse * _Nullable response, NSError * _Nonnull error) {
@@ -94,7 +94,7 @@
 }
 
 - (void)testResponseIsNilWhenLoadedFromCache {
-    AFImageDownloader *downloader = [UIImageView sharedImageDownloader];
+    AFImageDownloader *downloader = [UIImageView af_sharedImageDownloader];
     XCTestExpectation *cacheExpectation = [self expectationWithDescription:@"Cache request should succeed"];
     __block UIImage *downloadImage = nil;
     [downloader
@@ -110,7 +110,7 @@
     __block NSHTTPURLResponse *urlResponse;
     XCTestExpectation *expectation = [self expectationWithDescription:@"Request should succeed"];
     [self.imageView
-     setImageWithURLRequest:self.jpegURLRequest
+     af_setImageWithURLRequest:self.jpegURLRequest
      placeholderImage:nil
      success:^(NSURLRequest * _Nonnull request, NSHTTPURLResponse * _Nullable response, UIImage * _Nonnull image) {
          urlResponse = response;
@@ -127,11 +127,11 @@
 - (void)testThatImageCanBeCancelledAndDownloadedImmediately {
     //https://github.com/Alamofire/AlamofireImage/issues/55
     XCTestExpectation *expectation = [self expectationWithDescription:@"Request should succeed"];
-    [self.imageView setImageWithURL:self.jpegURL];
+    [self.imageView af_setImageWithURL:self.jpegURL];
     [self.imageView cancelImageDownloadTask];
     __block UIImage *responseImage;
     [self.imageView
-     setImageWithURLRequest:self.jpegURLRequest
+     af_setImageWithURLRequest:self.jpegURLRequest
      placeholderImage:nil
      success:^(NSURLRequest * _Nonnull request, NSHTTPURLResponse * _Nullable response, UIImage * _Nonnull image) {
          responseImage = image;
@@ -145,7 +145,7 @@
 - (void)testThatNilURLDoesntCrash {
 #pragma clang diagnostic push
 #pragma clang diagnostic ignored "-Wnonnull"
-    [self.imageView setImageWithURL:nil];
+    [self.imageView af_setImageWithURL:nil];
 #pragma clang diagnostic pop
 
 }

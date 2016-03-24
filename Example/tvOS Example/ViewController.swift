@@ -73,7 +73,7 @@ class CollectionViewCell : UICollectionViewCell {
     }
 
     func update(forGravatar gravatar:Gravatar) {
-        self.avatarView.setImageWithURL(gravatar.URL(size: self.bounds.size.width))
+        self.avatarView.af_setImageWithURL(gravatar.URL(size: self.bounds.size.width))
     }
 }
 

@@ -51,10 +51,10 @@ NS_ASSUME_NONNULL_BEGIN
  @param success A block object to be executed when the request finishes loading successfully. This block returns the HTML string to be loaded by the web view, and takes two arguments: the response, and the response string.
  @param failure A block object to be executed when the data task finishes unsuccessfully, or that finishes successfully, but encountered an error while parsing the response data. This block has no return value and takes a single argument: the error that occurred.
  */
-- (void)loadRequest:(NSURLRequest *)request
-           progress:(NSProgress * _Nullable __autoreleasing * _Nullable)progress
-            success:(nullable NSString * (^)(NSHTTPURLResponse *response, NSString *HTML))success
-            failure:(nullable void (^)(NSError *error))failure;
+- (void)af_loadRequest:(NSURLRequest *)request
+              progress:(NSProgress * _Nullable __autoreleasing * _Nullable)progress
+               success:(nullable NSString * (^)(NSHTTPURLResponse *response, NSString *HTML))success
+               failure:(nullable void (^)(NSError *error))failure;
 
 /**
  Asynchronously loads the data associated with a particular request with a specified MIME type and text encoding.
@@ -66,12 +66,12 @@ NS_ASSUME_NONNULL_BEGIN
  @param success A block object to be executed when the request finishes loading successfully. This block returns the data to be loaded by the web view and takes two arguments: the response, and the downloaded data.
  @param failure A block object to be executed when the data task finishes unsuccessfully, or that finishes successfully, but encountered an error while parsing the response data. This block has no return value and takes a single argument: the error that occurred.
  */
-- (void)loadRequest:(NSURLRequest *)request
-           MIMEType:(nullable NSString *)MIMEType
-   textEncodingName:(nullable NSString *)textEncodingName
-           progress:(NSProgress * _Nullable __autoreleasing * _Nullable)progress
-            success:(nullable NSData * (^)(NSHTTPURLResponse *response, NSData *data))success
-            failure:(nullable void (^)(NSError *error))failure;
+- (void)af_loadRequest:(NSURLRequest *)request
+              MIMEType:(nullable NSString *)MIMEType
+      textEncodingName:(nullable NSString *)textEncodingName
+              progress:(NSProgress * _Nullable __autoreleasing * _Nullable)progress
+               success:(nullable NSData * (^)(NSHTTPURLResponse *response, NSData *data))success
+               failure:(nullable void (^)(NSError *error))failure;
 
 @end
 

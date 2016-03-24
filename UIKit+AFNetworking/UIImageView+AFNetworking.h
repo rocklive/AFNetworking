@@ -45,12 +45,12 @@ NS_ASSUME_NONNULL_BEGIN
 
  @param imageDownloader The shared image downloader used to download images.
  */
-+ (void)setSharedImageDownloader:(AFImageDownloader *)imageDownloader;
++ (void)af_setSharedImageDownloader:(AFImageDownloader *)imageDownloader;
 
 /**
  The shared image downloader used to download images.
  */
-+ (AFImageDownloader *)sharedImageDownloader;
++ (AFImageDownloader *)af_sharedImageDownloader;
 
 ///--------------------
 /// @name Setting Image
@@ -61,23 +61,23 @@ NS_ASSUME_NONNULL_BEGIN
 
  If the image is cached locally, the image is set immediately, otherwise the specified placeholder image will be set immediately, and then the remote image will be set once the request is finished.
 
- By default, URL requests have a `Accept` header field value of "image / *", a cache policy of `NSURLCacheStorageAllowed` and a timeout interval of 30 seconds, and are set not handle cookies. To configure URL requests differently, use `setImageWithURLRequest:placeholderImage:success:failure:`
+ By default, URL requests have a `Accept` header field value of "image / *", a cache policy of `NSURLCacheStorageAllowed` and a timeout interval of 30 seconds, and are set not handle cookies. To configure URL requests differently, use `af_setImageWithURLRequest:placeholderImage:success:failure:`
 
  @param url The URL used for the image request.
  */
-- (void)setImageWithURL:(NSURL *)url;
+- (void)af_setImageWithURL:(NSURL *)url;
 
 /**
  Asynchronously downloads an image from the specified URL, and sets it once the request is finished. Any previous image request for the receiver will be cancelled.
 
  If the image is cached locally, the image is set immediately, otherwise the specified placeholder image will be set immediately, and then the remote image will be set once the request is finished.
 
- By default, URL requests have a `Accept` header field value of "image / *", a cache policy of `NSURLCacheStorageAllowed` and a timeout interval of 30 seconds, and are set not handle cookies. To configure URL requests differently, use `setImageWithURLRequest:placeholderImage:success:failure:`
+ By default, URL requests have a `Accept` header field value of "image / *", a cache policy of `NSURLCacheStorageAllowed` and a timeout interval of 30 seconds, and are set not handle cookies. To configure URL requests differently, use `af_setImageWithURLRequest:placeholderImage:success:failure:`
 
  @param url The URL used for the image request.
  @param placeholderImage The image to be set initially, until the image request finishes. If `nil`, the image view will not change its image until the image request finishes.
  */
-- (void)setImageWithURL:(NSURL *)url
+- (void)af_setImageWithURL:(NSURL *)url
        placeholderImage:(nullable UIImage *)placeholderImage;
 
 /**
@@ -92,7 +92,7 @@ NS_ASSUME_NONNULL_BEGIN
  @param success A block to be executed when the image data task finishes successfully. This block has no return value and takes three arguments: the request sent from the client, the response received from the server, and the image created from the response data of request. If the image was returned from cache, the response parameter will be `nil`.
  @param failure A block object to be executed when the image data task finishes unsuccessfully, or that finishes successfully. This block has no return value and takes three arguments: the request sent from the client, the response received from the server, and the error object describing the network or parsing error that occurred.
  */
-- (void)setImageWithURLRequest:(NSURLRequest *)urlRequest
+- (void)af_setImageWithURLRequest:(NSURLRequest *)urlRequest
               placeholderImage:(nullable UIImage *)placeholderImage
                        success:(nullable void (^)(NSURLRequest *request, NSHTTPURLResponse * _Nullable response, UIImage *image))success
                        failure:(nullable void (^)(NSURLRequest *request, NSHTTPURLResponse * _Nullable response, NSError *error))failure;

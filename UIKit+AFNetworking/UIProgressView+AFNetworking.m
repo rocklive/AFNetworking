@@ -52,7 +52,7 @@ static void * AFTaskCountOfBytesReceivedContext = &AFTaskCountOfBytesReceivedCon
 
 #pragma mark -
 
-- (void)setProgressWithUploadProgressOfTask:(NSURLSessionUploadTask *)task
+- (void)af_setProgressWithUploadProgressOfTask:(NSURLSessionUploadTask *)task
                                    animated:(BOOL)animated
 {
     [task addObserver:self forKeyPath:@"state" options:(NSKeyValueObservingOptions)0 context:AFTaskCountOfBytesSentContext];
@@ -61,7 +61,7 @@ static void * AFTaskCountOfBytesReceivedContext = &AFTaskCountOfBytesReceivedCon
     [self af_setUploadProgressAnimated:animated];
 }
 
-- (void)setProgressWithDownloadProgressOfTask:(NSURLSessionDownloadTask *)task
+- (void)af_setProgressWithDownloadProgressOfTask:(NSURLSessionDownloadTask *)task
                                      animated:(BOOL)animated
 {
     [task addObserver:self forKeyPath:@"state" options:(NSKeyValueObservingOptions)0 context:AFTaskCountOfBytesReceivedContext];

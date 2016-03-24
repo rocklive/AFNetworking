@@ -80,7 +80,7 @@
 
     self.titleLabel.text = _post.user.username;
     self.bodyLabel.text = _post.text;
-    [self.imageView setImageWithURL:_post.user.avatarImageURL placeholderImage:[UIImage imageNamed:@"profile-image-placeholder"]];
+    [self.imageView af_setImageWithURL:_post.user.avatarImageURL placeholderImage:[UIImage imageNamed:@"profile-image-placeholder"]];
 }
 
 - (void)savePost:(Post *)post {

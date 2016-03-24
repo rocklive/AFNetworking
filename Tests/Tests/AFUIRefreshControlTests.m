@@ -53,7 +53,7 @@
                                       [expectation fulfill];
                                   }];
     
-    [self.refreshControl setRefreshingWithStateOfTask:task];
+    [self.refreshControl af_setRefreshingWithStateOfTask:task];
     self.refreshControl = nil;
     
     [task resume];
@@ -75,7 +75,7 @@
                                       });
                                   }];
     
-    [self.refreshControl setRefreshingWithStateOfTask:task];
+    [self.refreshControl af_setRefreshingWithStateOfTask:task];
     self.refreshControl = nil;
     
     [task resume];
@@ -97,7 +97,7 @@
                                       });
                                   }];
     
-    [self.refreshControl setRefreshingWithStateOfTask:task];
+    [self.refreshControl af_setRefreshingWithStateOfTask:task];
     self.refreshControl = nil;
     
     [task resume];

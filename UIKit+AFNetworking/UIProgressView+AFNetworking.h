@@ -45,7 +45,7 @@ NS_ASSUME_NONNULL_BEGIN
  @param task The session task.
  @param animated `YES` if the change should be animated, `NO` if the change should happen immediately.
  */
-- (void)setProgressWithUploadProgressOfTask:(NSURLSessionUploadTask *)task
+- (void)af_setProgressWithUploadProgressOfTask:(NSURLSessionUploadTask *)task
                                    animated:(BOOL)animated;
 
 /**
@@ -54,7 +54,7 @@ NS_ASSUME_NONNULL_BEGIN
  @param task The session task.
  @param animated `YES` if the change should be animated, `NO` if the change should happen immediately.
  */
-- (void)setProgressWithDownloadProgressOfTask:(NSURLSessionDownloadTask *)task
+- (void)af_setProgressWithDownloadProgressOfTask:(NSURLSessionDownloadTask *)task
                                      animated:(BOOL)animated;
 
 @end

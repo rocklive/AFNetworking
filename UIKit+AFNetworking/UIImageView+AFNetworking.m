@@ -47,34 +47,34 @@
 
 @implementation UIImageView (AFNetworking)
 
-+ (AFImageDownloader *)sharedImageDownloader {
++ (AFImageDownloader *)af_sharedImageDownloader {
 
 #pragma clang diagnostic push
 #pragma clang diagnostic ignored "-Wgnu"
-    return objc_getAssociatedObject(self, @selector(sharedImageDownloader)) ?: [AFImageDownloader defaultInstance];
+    return objc_getAssociatedObject(self, @selector(af_sharedImageDownloader)) ?: [AFImageDownloader defaultInstance];
 #pragma clang diagnostic pop
 }
 
-+ (void)setSharedImageDownloader:(AFImageDownloader *)imageDownloader {
-    objc_setAssociatedObject(self, @selector(sharedImageDownloader), imageDownloader, OBJC_ASSOCIATION_RETAIN_NONATOMIC);
++ (void)af_setSharedImageDownloader:(AFImageDownloader *)imageDownloader {
+    objc_setAssociatedObject(self, @selector(af_sharedImageDownloader), imageDownloader, OBJC_ASSOCIATION_RETAIN_NONATOMIC);
 }
 
 #pragma mark -
 
-- (void)setImageWithURL:(NSURL *)url {
-    [self setImageWithURL:url placeholderImage:nil];
+- (void)af_setImageWithURL:(NSURL *)url {
+    [self af_setImageWithURL:url placeholderImage:nil];
 }
 
-- (void)setImageWithURL:(NSURL *)url
+- (void)af_setImageWithURL:(NSURL *)url
        placeholderImage:(UIImage *)placeholderImage
 {
     NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:url];
     [request addValue:@"image/*" forHTTPHeaderField:@"Accept"];
 
-    [self setImageWithURLRequest:request placeholderImage:placeholderImage success:nil failure:nil];
+    [self af_setImageWithURLRequest:request placeholderImage:placeholderImage success:nil failure:nil];
 }
 
-- (void)setImageWithURLRequest:(NSURLRequest *)urlRequest
+- (void)af_setImageWithURLRequest:(NSURLRequest *)urlRequest
               placeholderImage:(UIImage *)placeholderImage
                        success:(void (^)(NSURLRequest *request, NSHTTPURLResponse * _Nullable response, UIImage *image))success
                        failure:(void (^)(NSURLRequest *request, NSHTTPURLResponse * _Nullable response, NSError *error))failure
@@ -92,7 +92,7 @@
 
     [self cancelImageDownloadTask];
 
-    AFImageDownloader *downloader = [[self class] sharedImageDownloader];
+    AFImageDownloader *downloader = [[self class] af_sharedImageDownloader];
     id <AFImageRequestCache> imageCache = downloader.imageCache;
 
     //Use the image from the image cache if it exists
@@ -143,7 +143,7 @@
 
 - (void)cancelImageDownloadTask {
     if (self.af_activeImageDownloadReceipt != nil) {
-        [[self.class sharedImageDownloader] cancelTaskForImageDownloadReceipt:self.af_activeImageDownloadReceipt];
+        [[self.class af_sharedImageDownloader] cancelTaskForImageDownloadReceipt:self.af_activeImageDownloadReceipt];
         [self clearActiveDownloadInformation];
      }
 }

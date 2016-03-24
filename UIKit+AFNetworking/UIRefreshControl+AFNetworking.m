@@ -31,7 +31,7 @@
 @property (readonly, nonatomic, weak) UIRefreshControl *refreshControl;
 - (instancetype)initWithActivityRefreshControl:(UIRefreshControl *)refreshControl;
 
-- (void)setRefreshingWithStateOfTask:(NSURLSessionTask *)task;
+- (void)af_setRefreshingWithStateOfTask:(NSURLSessionTask *)task;
 
 @end
 
@@ -46,8 +46,8 @@
     return notificationObserver;
 }
 
-- (void)setRefreshingWithStateOfTask:(NSURLSessionTask *)task {
-    [[self af_notificationObserver] setRefreshingWithStateOfTask:task];
+- (void)af_setRefreshingWithStateOfTask:(NSURLSessionTask *)task {
+    [[self af_notificationObserver] af_setRefreshingWithStateOfTask:task];
 }
 
 @end
@@ -63,7 +63,7 @@
     return self;
 }
 
-- (void)setRefreshingWithStateOfTask:(NSURLSessionTask *)task {
+- (void)af_setRefreshingWithStateOfTask:(NSURLSessionTask *)task {
     NSNotificationCenter *notificationCenter = [NSNotificationCenter defaultCenter];
 
     [notificationCenter removeObserver:self name:AFNetworkingTaskDidResumeNotification object:nil];

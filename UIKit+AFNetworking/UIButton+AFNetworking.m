@@ -101,37 +101,37 @@ static const char * af_backgroundImageDownloadReceiptKeyForState(UIControlState 
 
 @implementation UIButton (AFNetworking)
 
-+ (AFImageDownloader *)sharedImageDownloader {
++ (AFImageDownloader *)af_sharedImageDownloader {
 
 #pragma clang diagnostic push
 #pragma clang diagnostic ignored "-Wgnu"
-    return objc_getAssociatedObject(self, @selector(sharedImageDownloader)) ?: [AFImageDownloader defaultInstance];
+    return objc_getAssociatedObject(self, @selector(af_sharedImageDownloader)) ?: [AFImageDownloader defaultInstance];
 #pragma clang diagnostic pop
 }
 
-+ (void)setSharedImageDownloader:(AFImageDownloader *)imageDownloader {
-    objc_setAssociatedObject(self, @selector(sharedImageDownloader), imageDownloader, OBJC_ASSOCIATION_RETAIN_NONATOMIC);
++ (void)af_setSharedImageDownloader:(AFImageDownloader *)imageDownloader {
+    objc_setAssociatedObject(self, @selector(af_sharedImageDownloader), imageDownloader, OBJC_ASSOCIATION_RETAIN_NONATOMIC);
 }
 
 #pragma mark -
 
-- (void)setImageForState:(UIControlState)state
+- (void)af_setImageForState:(UIControlState)state
                  withURL:(NSURL *)url
 {
-    [self setImageForState:state withURL:url placeholderImage:nil];
+    [self af_setImageForState:state withURL:url placeholderImage:nil];
 }
 
-- (void)setImageForState:(UIControlState)state
+- (void)af_setImageForState:(UIControlState)state
                  withURL:(NSURL *)url
         placeholderImage:(UIImage *)placeholderImage
 {
     NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:url];
     [request addValue:@"image/*" forHTTPHeaderField:@"Accept"];
 
-    [self setImageForState:state withURLRequest:request placeholderImage:placeholderImage success:nil failure:nil];
+    [self af_setImageForState:state withURLRequest:request placeholderImage:placeholderImage success:nil failure:nil];
 }
 
-- (void)setImageForState:(UIControlState)state
+- (void)af_setImageForState:(UIControlState)state
           withURLRequest:(NSURLRequest *)urlRequest
         placeholderImage:(nullable UIImage *)placeholderImage
                  success:(nullable void (^)(NSURLRequest *request, NSHTTPURLResponse * _Nullable response, UIImage *image))success
@@ -141,9 +141,9 @@ static const char * af_backgroundImageDownloadReceiptKeyForState(UIControlState 
         return;
     }
 
-    [self cancelImageDownloadTaskForState:state];
+    [self af_cancelImageDownloadTaskForState:state];
 
-    AFImageDownloader *downloader = [[self class] sharedImageDownloader];
+    AFImageDownloader *downloader = [[self class] af_sharedImageDownloader];
     id <AFImageRequestCache> imageCache = downloader.imageCache;
 
     //Use the image from the image cache if it exists
@@ -194,23 +194,23 @@ static const char * af_backgroundImageDownloadReceiptKeyForState(UIControlState 
 
 #pragma mark -
 
-- (void)setBackgroundImageForState:(UIControlState)state
+- (void)af_setBackgroundImageForState:(UIControlState)state
                            withURL:(NSURL *)url
 {
-    [self setBackgroundImageForState:state withURL:url placeholderImage:nil];
+    [self af_setBackgroundImageForState:state withURL:url placeholderImage:nil];
 }
 
-- (void)setBackgroundImageForState:(UIControlState)state
+- (void)af_setBackgroundImageForState:(UIControlState)state
                            withURL:(NSURL *)url
                   placeholderImage:(nullable UIImage *)placeholderImage
 {
     NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:url];
     [request addValue:@"image/*" forHTTPHeaderField:@"Accept"];
 
-    [self setBackgroundImageForState:state withURLRequest:request placeholderImage:placeholderImage success:nil failure:nil];
+    [self af_setBackgroundImageForState:state withURLRequest:request placeholderImage:placeholderImage success:nil failure:nil];
 }
 
-- (void)setBackgroundImageForState:(UIControlState)state
+- (void)af_setBackgroundImageForState:(UIControlState)state
                     withURLRequest:(NSURLRequest *)urlRequest
                   placeholderImage:(nullable UIImage *)placeholderImage
                            success:(nullable void (^)(NSURLRequest *request, NSHTTPURLResponse * _Nullable response, UIImage *image))success
@@ -220,9 +220,9 @@ static const char * af_backgroundImageDownloadReceiptKeyForState(UIControlState 
         return;
     }
 
-    [self cancelImageDownloadTaskForState:state];
+    [self af_cancelImageDownloadTaskForState:state];
 
-    AFImageDownloader *downloader = [[self class] sharedImageDownloader];
+    AFImageDownloader *downloader = [[self class] af_sharedImageDownloader];
     id <AFImageRequestCache> imageCache = downloader.imageCache;
 
     //Use the image from the image cache if it exists
@@ -273,18 +273,18 @@ static const char * af_backgroundImageDownloadReceiptKeyForState(UIControlState 
 
 #pragma mark -
 
-- (void)cancelImageDownloadTaskForState:(UIControlState)state {
+- (void)af_cancelImageDownloadTaskForState:(UIControlState)state {
     AFImageDownloadReceipt *receipt = [self af_imageDownloadReceiptForState:state];
     if (receipt != nil) {
-        [[self.class sharedImageDownloader] cancelTaskForImageDownloadReceipt:receipt];
+        [[self.class af_sharedImageDownloader] cancelTaskForImageDownloadReceipt:receipt];
         [self af_setImageDownloadReceipt:nil forState:state];
     }
 }
 
-- (void)cancelBackgroundImageDownloadTaskForState:(UIControlState)state {
+- (void)af_cancelBackgroundImageDownloadTaskForState:(UIControlState)state {
     AFImageDownloadReceipt *receipt = [self af_backgroundImageDownloadReceiptForState:state];
     if (receipt != nil) {
-        [[self.class sharedImageDownloader] cancelTaskForImageDownloadReceipt:receipt];
+        [[self.class af_sharedImageDownloader] cancelTaskForImageDownloadReceipt:receipt];
         [self af_setBackgroundImageDownloadReceipt:nil forState:state];
     }
 }

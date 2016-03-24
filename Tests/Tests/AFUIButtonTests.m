@@ -40,9 +40,9 @@
 
 - (void)setUp {
     [super setUp];
-    [[UIButton sharedImageDownloader].imageCache removeAllImages];
-    [[[[[[UIButton sharedImageDownloader] sessionManager] session] configuration] URLCache] removeAllCachedResponses];
-    [UIButton setSharedImageDownloader:[[AFImageDownloader alloc] init]];
+    [[UIButton af_sharedImageDownloader].imageCache removeAllImages];
+    [[[[[[UIButton af_sharedImageDownloader] sessionManager] session] configuration] URLCache] removeAllCachedResponses];
+    [UIButton af_setSharedImageDownloader:[[AFImageDownloader alloc] init]];
 
     self.button = [UIButton new];
 
@@ -62,7 +62,7 @@
 
 - (void)testThatBackgroundImageChanges {
     XCTAssertNil([self.button backgroundImageForState:UIControlStateNormal]);
-    [self.button setBackgroundImageForState:UIControlStateNormal withURL:self.jpegURL];
+    [self.button af_setBackgroundImageForState:UIControlStateNormal withURL:self.jpegURL];
     NSPredicate *predicate = [NSPredicate predicateWithBlock:^BOOL(UIButton  * _Nonnull button, NSDictionary<NSString *,id> * _Nullable bindings) {
         return [button backgroundImageForState:UIControlStateNormal] != nil;
     }];
@@ -77,11 +77,11 @@
 - (void)testThatForegroundImageCanBeCancelledAndDownloadedImmediately {
     //https://github.com/Alamofire/AlamofireImage/issues/55
     XCTestExpectation *expectation = [self expectationWithDescription:@"Request should succeed"];
-    [self.button setImageForState:UIControlStateNormal withURL:self.jpegURL];
-    [self.button cancelImageDownloadTaskForState:UIControlStateNormal];
+    [self.button af_setImageForState:UIControlStateNormal withURL:self.jpegURL];
+    [self.button af_cancelImageDownloadTaskForState:UIControlStateNormal];
     __block UIImage *responseImage;
     [self.button
-     setImageForState:UIControlStateNormal
+     af_setImageForState:UIControlStateNormal
      withURLRequest:self.jpegURLRequest
      placeholderImage:nil
      success:^(NSURLRequest * _Nonnull request, NSHTTPURLResponse * _Nullable response, UIImage * _Nonnull image) {
@@ -96,11 +96,11 @@
 - (void)testThatBackgroundImageCanBeCancelledAndDownloadedImmediately {
     //https://github.com/Alamofire/AlamofireImage/issues/55
     XCTestExpectation *expectation = [self expectationWithDescription:@"Request should succeed"];
-    [self.button setBackgroundImageForState:UIControlStateNormal withURL:self.jpegURL];
-    [self.button cancelBackgroundImageDownloadTaskForState:UIControlStateNormal];
+    [self.button af_setBackgroundImageForState:UIControlStateNormal withURL:self.jpegURL];
+    [self.button af_cancelBackgroundImageDownloadTaskForState:UIControlStateNormal];
     __block UIImage *responseImage;
     [self.button
-     setBackgroundImageForState:UIControlStateNormal
+     af_setBackgroundImageForState:UIControlStateNormal
      withURLRequest:self.jpegURLRequest
      placeholderImage:nil
      success:^(NSURLRequest * _Nonnull request, NSHTTPURLResponse * _Nullable response, UIImage * _Nonnull image) {
