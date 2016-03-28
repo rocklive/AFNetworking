@@ -148,6 +148,10 @@
      }
 }
 
+- (BOOL) af_loadingImage{
+    return self.af_activeImageDownloadReceipt.task != nil;
+}
+
 - (void)clearActiveDownloadInformation {
     self.af_activeImageDownloadReceipt = nil;
 }
