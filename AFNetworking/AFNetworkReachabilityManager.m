@@ -112,17 +112,36 @@ static void AFNetworkReachabilityReleaseCallback(const void *info) {
 @implementation AFNetworkReachabilityManager
 
 + (instancetype)sharedManager {
+    typedef union
+    {
+        struct sockaddr_in6 ipv6;
+        struct sockaddr_in  ipv4;
+        struct sockaddr     base;
+    } USocketAddress;
+    
     static AFNetworkReachabilityManager *_sharedManager = nil;
     static dispatch_once_t onceToken;
     dispatch_once(&onceToken, ^{
-        struct sockaddr_in address;
-        bzero(&address, sizeof(address));
-        address.sin_len = sizeof(address);
-        address.sin_family = AF_INET;
-
-        _sharedManager = [self managerForAddress:&address];
+        USocketAddress address;
+        
+        NSOperatingSystemVersion operatingSytemVersion = [[NSProcessInfo processInfo] operatingSystemVersion];
+        if (operatingSytemVersion.majorVersion >= 9) {
+            struct sockaddr_in6 ipv6_address;
+            bzero(&ipv6_address, sizeof(ipv6_address));
+            ipv6_address.sin6_len = sizeof(ipv6_address);
+            ipv6_address.sin6_family = AF_INET6;
+            address.ipv6 = ipv6_address;
+        } else {
+            struct sockaddr_in ipv4_address;
+            bzero(&ipv4_address, sizeof(ipv4_address));
+            ipv4_address.sin_len = sizeof(ipv4_address);
+            ipv4_address.sin_family = AF_INET;
+            address.ipv4 = ipv4_address;
+        }
+        
+        _sharedManager = [self managerForAddress:&address.base];
     });
-
+    
     return _sharedManager;
 }
 
